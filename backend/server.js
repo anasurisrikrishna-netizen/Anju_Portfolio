@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -36,10 +36,10 @@ app.post("/api/ai-recruiter/chat", async (req, res) => {
         "You have reached the 5-question chat limit. Please use the portfolio contact details for further inquiries.",
     });
   }
-  if (!process.env.OPENAI_API_KEY) {
+  if (!process.env.GEMINI_API_KEY) {
     return res
       .status(503)
-      .json({ error: "Server configuration required: OPENAI_API_KEY is not set." });
+      .json({ error: "Server configuration required: GEMINI_API_KEY is not set." });
   }
 
   const messages = history
@@ -51,27 +51,30 @@ app.post("/api/ai-recruiter/chat", async (req, res) => {
         typeof item.content === "string",
     )
     .map((item) => ({
-      role: item.role,
-      content: item.content.slice(0, 800),
+      role: item.role === "assistant" ? "model" : "user",
+      parts: [{ text: item.content.slice(0, 800) }],
     }));
 
   try {
-    const client = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      timeout: 20000,
-    });
-    const response = await client.chat.completions.create({
-      model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
-      max_tokens: 160,
-      messages: [
-        { role: "system", content: SYS },
+    const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    const response = await client.models.generateContent({
+      model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+      contents: [
         ...messages,
-        { role: "user", content: message },
+        { role: "user", parts: [{ text: message }] },
       ],
+      config: {
+        systemInstruction: SYS,
+        maxOutputTokens: 160,
+      },
     });
-    res.json({ answer: response.choices[0].message.content });
+    const answer = response.text;
+    if (!answer) {
+      throw new Error("Gemini returned an empty response.");
+    }
+    res.json({ answer });
   } catch (error) {
-    console.error(error.status || error.message);
+    console.error(error.status || error.message || error);
     res
       .status(502)
       .json({ error: "The AI service is unavailable. Please try again." });
