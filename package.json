@@ -2,5 +2,8 @@
   "name": "miss-asia-model-portfolio",
   "private": true,
   "type": "module",
-  "workspaces": ["backend"]
+  "workspaces": ["backend"],
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
