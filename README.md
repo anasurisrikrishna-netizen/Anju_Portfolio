@@ -12,6 +12,6 @@
 
 ## Deploy to Vercel
 - Keep the Vercel project Root Directory set to the repository root. `vercel.json` selects Vercel's "Other" preset so the static portfolio and `api/ai-recruiter/chat.js` function deploy without Express app auto-detection.
-- Add `GEMINI_API_KEY` in Vercel Project Settings → Environment Variables. `GEMINI_MODEL` and `ALLOWED_ORIGIN` are optional.
+- Add `GEMINI_API_KEY` in Vercel Project Settings → Environment Variables. `GEMINI_MODEL` is optional (defaults to `gemini-3.5-flash-lite`); `ALLOWED_ORIGIN` is optional.
 - Redeploy after setting environment variables. The portfolio chat posts to `/api/ai-recruiter/chat`.
 - The AI Recruiter is limited to five questions per chat and answers only portfolio and booking-related questions. It replies in the visitor's language when supported, and cannot confirm appointments.

@@ -58,7 +58,7 @@ app.post("/api/ai-recruiter/chat", async (req, res) => {
   try {
     const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     const response = await client.models.generateContent({
-      model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
+      model: process.env.GEMINI_MODEL || "gemini-3.5-flash-lite",
       contents: [
         ...messages,
         { role: "user", parts: [{ text: message }] },
@@ -74,7 +74,10 @@ app.post("/api/ai-recruiter/chat", async (req, res) => {
     }
     res.json({ answer });
   } catch (error) {
-    console.error(error.status || error.message || error);
+    console.error("Gemini API request failed:", {
+      status: error.status,
+      message: error.message,
+    });
     res
       .status(502)
       .json({ error: "The AI service is unavailable. Please try again." });
