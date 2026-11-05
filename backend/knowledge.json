@@ -1,1 +1,16 @@
-{"name":"[Your Name]","title":"Model and Miss Asia contestant","about":"[verified bio]","measurements":{"height":"[add]"},"journey":[],"platform":"[add]","contact":{"email":"[add]","instagram":"[add]"}}
+{
+  "name": "Anju Shree Reddy",
+  "title": "Model and Miss Asia Title Holder",
+  "based_in": "Hyderabad, India",
+  "specialties": ["Runway", "Editorial", "Pageantry"],
+  "journey": [
+    { "year": "2024", "title": "Miss Karnataka" },
+    { "year": "2024", "title": "Miss Marvelous Icon of Karnataka" },
+    { "year": "2025", "title": "Miss Asia Face of the World" }
+  ],
+  "availability_and_booking": "Availability and booking dates are not provided. Contact the model to ask about scheduling. The assistant cannot confirm or make bookings.",
+  "contact": {
+    "email": "karthikanju78@gmail.com",
+    "instagram": "@reddyanjushree"
+  }
+}

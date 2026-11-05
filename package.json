@@ -1,0 +1,6 @@
+{
+  "name": "miss-asia-model-portfolio",
+  "private": true,
+  "type": "module",
+  "workspaces": ["backend"]
+}
