@@ -1,6 +1,6 @@
 {
   "functions": {
-    "api/ai-recruiter/chat.js": {
+    "server.js": {
       "includeFiles": "backend/knowledge.json"
     }
   }

@@ -11,7 +11,7 @@
 4. Update `backend/knowledge.json` with verified facts.
 
 ## Deploy to Vercel
-- Keep the Vercel project Root Directory set to the repository root so it can serve `index.html` and discover `api/ai-recruiter/chat.js`.
+- Keep the Vercel project Root Directory set to the repository root so it can discover the root `server.js` Express entrypoint and serve `index.html`.
 - Add `OPENAI_API_KEY` in Vercel Project Settings → Environment Variables. `OPENAI_MODEL` and `ALLOWED_ORIGIN` are optional.
 - Redeploy after setting environment variables. The portfolio chat posts to `/api/ai-recruiter/chat`.
 - The AI Recruiter is limited to five questions per chat and answers only portfolio and booking-related questions. It replies in the visitor's language when supported, and cannot confirm appointments.
