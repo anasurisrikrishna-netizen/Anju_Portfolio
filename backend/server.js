@@ -74,11 +74,23 @@ app.post("/api/ai-recruiter/chat", async (req, res) => {
     }
     res.json({ answer });
   } catch (error) {
+    const status = Number(error?.status);
     console.error("Gemini API request failed:", {
-      status: error.status,
+      status,
       message: error.message,
     });
-    res
+    if (status === 429) {
+      return res.status(429).json({
+        error:
+          "Gemini is temporarily limiting requests on its free tier. Please wait a little and try again.",
+      });
+    }
+    if (status === 503 || status >= 500) {
+      return res.status(503).json({
+        error: "Gemini is temporarily unavailable. Please try again shortly.",
+      });
+    }
+    return res
       .status(502)
       .json({ error: "The AI service is unavailable. Please try again." });
   }
